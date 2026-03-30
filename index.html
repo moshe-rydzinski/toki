@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toki - Social Helping App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="backdrop"></div>
+    <main class="app-shell">
+      <header class="top-header">
+        <div>
+          <p class="brand-kicker">Toki</p>
+          <h1>Advice That Levels You Up</h1>
+        </div>
+        <div id="sessionChip" class="session-chip hidden"></div>
+      </header>
+
+      <section id="authView" class="auth-view">
+        <article class="panel auth-panel">
+          <h2>Welcome to Toki</h2>
+          <p>Ask for help, share advice, and climb the leaderboard.</p>
+
+          <div class="auth-switch" role="tablist" aria-label="Authentication mode">
+            <button id="showLoginBtn" class="chip active" type="button">Log In</button>
+            <button id="showRegisterBtn" class="chip" type="button">Create Account</button>
+          </div>
+
+          <form id="authForm" class="stacked-form" autocomplete="off">
+            <label>
+              Email
+              <input id="authEmail" type="email" maxlength="120" required placeholder="you@example.com" />
+            </label>
+            <label id="registerUsernameWrap" class="hidden">
+              Username
+              <input id="registerUsername" type="text" minlength="3" maxlength="24" placeholder="your public handle" />
+            </label>
+            <label id="fullNameWrap" class="hidden">
+              Full Name
+              <input id="authFullName" type="text" minlength="2" maxlength="48" placeholder="Your name" />
+            </label>
+            <label>
+              Password
+              <input id="authPassword" type="password" minlength="4" maxlength="48" required />
+            </label>
+            <button id="authSubmitBtn" class="primary-btn" type="submit">Log In</button>
+          </form>
+
+          <p id="authMessage" class="status"></p>
+        </article>
+      </section>
+
+      <section id="appView" class="app-view hidden">
+        <div class="screen-stack">
+          <section id="screen-home" class="screen active" aria-label="Home feed">
+            <div class="panel">
+              <div class="section-head">
+                <h2>Home Feed</h2>
+                <p>Browse requests and share advice.</p>
+              </div>
+              <div id="feedList" class="feed-list"></div>
+            </div>
+          </section>
+
+          <section id="screen-ask" class="screen" aria-label="Ask for advice">
+            <article class="panel">
+              <div class="section-head">
+                <h2>Ask for Advice</h2>
+                <p>Post what you need help with and let the community respond.</p>
+              </div>
+
+              <form id="askForm" class="stacked-form">
+                <label>
+                  Topic
+                  <input id="askTitle" type="text" minlength="4" maxlength="90" required placeholder="Example: I keep procrastinating before exams" />
+                </label>
+                <label>
+                  Details
+                  <textarea id="askBody" minlength="12" maxlength="700" required placeholder="Explain your situation so people can give useful advice."></textarea>
+                </label>
+                <button class="primary-btn" type="submit">Post Question</button>
+              </form>
+              <p id="askMessage" class="status"></p>
+            </article>
+          </section>
+
+          <section id="screen-leaderboard" class="screen" aria-label="Leaderboard">
+            <article class="panel">
+              <div class="section-head">
+                <h2>Leaderboard</h2>
+                <p>Top users rated for giving advice.</p>
+              </div>
+              <ol id="leaderboardList" class="leaderboard-list"></ol>
+            </article>
+          </section>
+
+          <section id="screen-profile" class="screen" aria-label="Profile">
+            <article class="panel">
+              <div class="section-head">
+                <h2>Your Profile</h2>
+                <p>Track your advice impact and activity.</p>
+              </div>
+
+              <div id="profileStats" class="profile-stats"></div>
+              <div id="profileHistory" class="profile-history"></div>
+
+              <button id="logoutBtn" class="ghost-btn" type="button">Log Out</button>
+            </article>
+          </section>
+        </div>
+
+        <nav class="bottom-nav" aria-label="Primary">
+          <button class="nav-btn active" data-target="home" type="button">Home</button>
+          <button class="nav-btn" data-target="ask" type="button">Ask</button>
+          <button class="nav-btn" data-target="leaderboard" type="button">Leaderboard</button>
+          <button class="nav-btn" data-target="profile" type="button">Profile</button>
+        </nav>
+      </section>
+    </main>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
