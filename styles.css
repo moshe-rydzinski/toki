@@ -1,16 +1,16 @@
 :root {
-  --bg-deep: #111018;
-  --bg-mid: #1a1b29;
-  --card: rgba(21, 25, 43, 0.78);
-  --card-border: rgba(255, 255, 255, 0.09);
-  --text-main: #f5f6ff;
-  --text-muted: #b2b6d9;
-  --accent-warm: #ff9a5a;
-  --accent-cool: #49d3c9;
-  --accent-soft: #ffdc8b;
-  --danger: #ff7a7a;
-  --success: #86e3a0;
-  --shadow: 0 20px 45px rgba(0, 0, 0, 0.36);
+  --bg-deep: #241b47;
+  --bg-mid: #fff7ed;
+  --card: rgba(255, 255, 255, 0.84);
+  --card-border: rgba(42, 94, 202, 0.2);
+  --text-main: #2d214f;
+  --text-muted: #6e618f;
+  --accent-warm: #ff5ca8;
+  --accent-cool: #1ba5ff;
+  --accent-soft: #ffd85a;
+  --danger: #d64376;
+  --success: #1f9b63;
+  --shadow: 0 16px 36px rgba(255, 107, 170, 0.18);
   --motion-fast: 130ms;
   --motion-mid: 220ms;
   --motion-slow: 360ms;
@@ -35,10 +35,10 @@ body {
   text-rendering: optimizeLegibility;
   color: var(--text-main);
   background:
-    radial-gradient(circle at 10% 15%, #31458f 0%, transparent 32%),
-    radial-gradient(circle at 80% 4%, #5f247d 0%, transparent 35%),
-    radial-gradient(circle at 85% 85%, #234f65 0%, transparent 30%),
-    linear-gradient(165deg, var(--bg-deep), #0e1424 35%, #191f33 100%);
+    radial-gradient(circle at 9% 14%, rgba(255, 137, 194, 0.42) 0%, transparent 38%),
+    radial-gradient(circle at 84% 5%, rgba(255, 216, 90, 0.35) 0%, transparent 36%),
+    radial-gradient(circle at 86% 84%, rgba(27, 165, 255, 0.3) 0%, transparent 34%),
+    linear-gradient(165deg, #fffaf2 0%, #fff6fb 45%, #f0f8ff 100%);
   background-size: 120% 120%;
   animation: bg-float 20s ease-in-out infinite alternate;
   display: flex;
@@ -51,10 +51,10 @@ body {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(120deg, rgba(255, 255, 255, 0.025) 25%, transparent 25%),
-    linear-gradient(300deg, rgba(255, 255, 255, 0.025) 25%, transparent 25%);
+    linear-gradient(120deg, rgba(255, 124, 189, 0.06) 25%, transparent 25%),
+    linear-gradient(300deg, rgba(27, 165, 255, 0.06) 25%, transparent 25%);
   background-size: 34px 34px;
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .app-shell {
@@ -84,13 +84,13 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.24em;
   font-size: 0.74rem;
-  color: var(--accent-soft);
+  color: var(--accent-warm);
 }
 
 .session-chip {
   padding: 0.5rem 0.78rem;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.72);
   border: 1px solid var(--card-border);
   font-size: 0.84rem;
   color: var(--text-muted);
@@ -139,7 +139,7 @@ body {
   color: var(--text-muted);
   padding: 0.45rem 0.75rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.62);
   cursor: pointer;
   transition:
     transform var(--motion-fast) var(--motion-ease),
@@ -177,8 +177,8 @@ input,
 textarea,
 select {
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(8, 10, 17, 0.66);
+  border: 1px solid rgba(42, 94, 202, 0.24);
+  background: rgba(255, 255, 255, 0.9);
   color: var(--text-main);
   padding: 0.65rem 0.75rem;
 }
@@ -192,7 +192,7 @@ input:focus,
 textarea:focus,
 select:focus,
 button:focus-visible {
-  outline: 2px solid rgba(255, 216, 136, 0.65);
+  outline: 2px solid rgba(27, 165, 255, 0.55);
   outline-offset: 2px;
 }
 
@@ -216,8 +216,8 @@ button {
 }
 
 .primary-btn {
-  color: #21100b;
-  background: linear-gradient(120deg, var(--accent-soft), var(--accent-warm));
+  color: #2b1f4e;
+  background: linear-gradient(120deg, var(--accent-warm), var(--accent-soft));
 }
 
 .primary-btn:hover {
@@ -228,14 +228,14 @@ button {
 .ghost-btn {
   color: var(--text-main);
   border: 1px solid var(--card-border);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .inline-btn {
   padding: 0.46rem 0.72rem;
   border: 1px solid var(--card-border);
   color: var(--text-main);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.65);
 }
 
 .status {
@@ -288,7 +288,7 @@ button {
   border: 1px solid var(--card-border);
   border-radius: 16px;
   padding: 0.8rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.62);
   transition:
     transform var(--motion-mid) var(--motion-ease),
     border-color var(--motion-mid) var(--motion-ease),
@@ -297,8 +297,8 @@ button {
 
 .question-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(42, 94, 202, 0.32);
+  background: rgba(255, 244, 227, 0.86);
 }
 
 .question-head {
@@ -326,8 +326,8 @@ button {
 
 .answer-row {
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  background: rgba(8, 12, 21, 0.6);
+  border: 1px solid rgba(42, 94, 202, 0.2);
+  background: rgba(255, 249, 255, 0.86);
   padding: 0.6rem;
   transition:
     transform var(--motion-fast) var(--motion-ease),
@@ -336,7 +336,7 @@ button {
 
 .answer-row:hover {
   transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(42, 94, 202, 0.34);
 }
 
 .answer-row p {
@@ -353,10 +353,10 @@ button {
 .rating-tag {
   padding: 0.25rem 0.45rem;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 92, 168, 0.3);
+  background: rgba(255, 245, 204, 0.72);
   font-size: 0.79rem;
-  color: var(--accent-soft);
+  color: var(--accent-cool);
 }
 
 .answer-form {
@@ -392,7 +392,7 @@ button {
   border: 1px solid var(--card-border);
   border-radius: 14px;
   padding: 0.66rem 0.78rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.62);
   display: flex;
   justify-content: space-between;
   gap: 0.5rem;
@@ -404,14 +404,14 @@ button {
 
 .leaderboard-item:hover {
   transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(42, 94, 202, 0.32);
+  background: rgba(255, 244, 227, 0.84);
 }
 
 .lb-rank {
   display: inline-block;
   min-width: 1.4rem;
-  color: var(--accent-soft);
+  color: var(--accent-warm);
   font-weight: 700;
 }
 
@@ -426,7 +426,7 @@ button {
   border: 1px solid var(--card-border);
   border-radius: 12px;
   padding: 0.6rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(255, 255, 255, 0.62);
   transition:
     transform var(--motion-fast) var(--motion-ease),
     border-color var(--motion-mid) var(--motion-ease);
@@ -434,7 +434,7 @@ button {
 
 .stat-card:hover {
   transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(42, 94, 202, 0.32);
 }
 
 .stat-card .label {
@@ -468,7 +468,7 @@ button {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.35rem;
-  background: rgba(7, 9, 18, 0.75);
+  background: rgba(255, 248, 234, 0.94);
 }
 
 .nav-btn {
