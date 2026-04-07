@@ -3,8 +3,28 @@ import { hasSupabaseConfig, supabase } from "./supabaseClient.js";
 
 const HAPTIC_MS = 12;
 const HAPTIC_GAP_MS = 55;
+const ONBOARDING_SEEN_KEY_PREFIX = "toki_onboarding_seen";
 const HAPTIC_SELECTOR =
-  "button, a, .chip, .nav-btn, .question-card, .answer-row, .leaderboard-item, .stat-card, input, textarea, select";
+  "button, a, .chip, .nav-btn, .question-card, .answer-row, .leaderboard-item, .stat-card, input, textarea, select, .onboarding-dot";
+
+const ONBOARDING_SLIDES = [
+  {
+    title: "Share Your Situation",
+    body: "Use Ask to describe your relationship situation clearly, including context and what kind of guidance you need.",
+  },
+  {
+    title: "Give Respectful Guidance",
+    body: "Reply with thoughtful, practical relationship advice that is kind, specific, and emotionally aware.",
+  },
+  {
+    title: "Rate What Helps",
+    body: "As the asker, rate replies from 1 to 10. Your ratings power the leaderboard and highlight trusted voices.",
+  },
+  {
+    title: "Build Your Support Profile",
+    body: "Track your impact in Profile and keep helping others navigate dating, communication, trust, and conflict.",
+  },
+];
 
 const state = {
   profiles: [],
@@ -14,6 +34,7 @@ const state = {
   currentUser: null,
   authMode: "login",
   currentScreen: "home",
+  onboardingIndex: 0,
   lastHapticAt: 0,
 };
 
@@ -41,6 +62,13 @@ const el = {
   profileStats: document.getElementById("profileStats"),
   profileHistory: document.getElementById("profileHistory"),
   logoutBtn: document.getElementById("logoutBtn"),
+  onboardingModal: document.getElementById("onboardingModal"),
+  onboardingTitle: document.getElementById("onboardingTitle"),
+  onboardingBody: document.getElementById("onboardingBody"),
+  onboardingDots: document.getElementById("onboardingDots"),
+  onboardingSkipBtn: document.getElementById("onboardingSkipBtn"),
+  onboardingPrevBtn: document.getElementById("onboardingPrevBtn"),
+  onboardingNextBtn: document.getElementById("onboardingNextBtn"),
 };
 
 function sanitize(text) {
@@ -93,6 +121,92 @@ function showStatus(element, message, type = "") {
   if (type) {
     element.classList.add(type);
   }
+}
+
+function getOnboardingSeenKey(userId) {
+  return `${ONBOARDING_SEEN_KEY_PREFIX}:${userId || "anonymous"}`;
+}
+
+function hasCompletedOnboarding() {
+  const userId = state.currentUser?.id;
+  if (!userId) {
+    return true;
+  }
+  return window.localStorage.getItem(getOnboardingSeenKey(userId)) === "1";
+}
+
+function shouldShowOnboarding() {
+  if (!state.currentUser) {
+    return false;
+  }
+
+  const needsOnboarding = state.currentUser.user_metadata?.needs_onboarding === true;
+  return needsOnboarding && !hasCompletedOnboarding();
+}
+
+function renderOnboardingSlide() {
+  const slide = ONBOARDING_SLIDES[state.onboardingIndex];
+  if (!slide) {
+    return;
+  }
+
+  el.onboardingTitle.textContent = slide.title;
+  el.onboardingBody.textContent = slide.body;
+  el.onboardingPrevBtn.disabled = state.onboardingIndex === 0;
+  el.onboardingNextBtn.textContent =
+    state.onboardingIndex === ONBOARDING_SLIDES.length - 1 ? "Start using Toki" : "Next";
+
+  el.onboardingDots.innerHTML = ONBOARDING_SLIDES.map((_, index) => {
+    const activeClass = index === state.onboardingIndex ? "onboarding-dot active" : "onboarding-dot";
+    return `<span class="${activeClass}"></span>`;
+  }).join("");
+}
+
+async function markOnboardingComplete() {
+  const userId = state.currentUser?.id;
+  if (!userId) {
+    return;
+  }
+
+  window.localStorage.setItem(getOnboardingSeenKey(userId), "1");
+
+  if (
+    !supabase ||
+    typeof supabase.auth?.updateUser !== "function" ||
+    state.currentUser.user_metadata?.needs_onboarding !== true
+  ) {
+    return;
+  }
+
+  const { data, error } = await supabase.auth.updateUser({
+    data: {
+      ...state.currentUser.user_metadata,
+      needs_onboarding: false,
+    },
+  });
+
+  if (!error && data?.user) {
+    state.currentUser = data.user;
+  }
+}
+
+function openOnboarding() {
+  if (!el.onboardingModal) {
+    return;
+  }
+  state.onboardingIndex = 0;
+  el.onboardingModal.classList.remove("hidden");
+  document.body.classList.add("modal-open");
+  renderOnboardingSlide();
+}
+
+async function closeOnboarding() {
+  if (!el.onboardingModal) {
+    return;
+  }
+  el.onboardingModal.classList.add("hidden");
+  document.body.classList.remove("modal-open");
+  await markOnboardingComplete();
 }
 
 function switchAuthMode(mode) {
@@ -271,6 +385,8 @@ function renderAuthView(message = "") {
   el.authView.classList.remove("hidden");
   el.appView.classList.add("hidden");
   el.sessionChip.classList.add("hidden");
+  el.onboardingModal?.classList.add("hidden");
+  document.body.classList.remove("modal-open");
   switchAuthMode(state.authMode);
   if (message) {
     showStatus(el.authMessage, message, "error");
@@ -462,6 +578,13 @@ async function refreshAndRender() {
 async function bootstrapAuthenticatedState(profileSeed = {}) {
   await ensureProfileForCurrentUser(profileSeed);
   await refreshAndRender();
+
+  if (shouldShowOnboarding()) {
+    openOnboarding();
+  } else {
+    document.body.classList.remove("modal-open");
+    el.onboardingModal?.classList.add("hidden");
+  }
 }
 
 async function handleAuthSubmit(event) {
@@ -502,6 +625,7 @@ async function handleAuthSubmit(event) {
           data: {
             username,
             full_name: fullName,
+            needs_onboarding: true,
           },
           emailRedirectTo: getAuthRedirectUrl(),
         },
@@ -686,6 +810,27 @@ function attachEvents() {
     state.answers = [];
     state.ratings = [];
     renderAuthView();
+  });
+
+  el.onboardingPrevBtn?.addEventListener("click", () => {
+    if (state.onboardingIndex <= 0) {
+      return;
+    }
+    state.onboardingIndex -= 1;
+    renderOnboardingSlide();
+  });
+
+  el.onboardingNextBtn?.addEventListener("click", () => {
+    if (state.onboardingIndex >= ONBOARDING_SLIDES.length - 1) {
+      void closeOnboarding();
+      return;
+    }
+    state.onboardingIndex += 1;
+    renderOnboardingSlide();
+  });
+
+  el.onboardingSkipBtn?.addEventListener("click", () => {
+    void closeOnboarding();
   });
 
   installHaptics();

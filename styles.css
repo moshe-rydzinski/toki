@@ -485,6 +485,76 @@ button {
   font-weight: 700;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
+.onboarding-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  background: rgba(65, 36, 78, 0.35);
+  padding: 1rem;
+}
+
+.onboarding-card {
+  width: min(520px, 100%);
+  border: 1px solid rgba(50, 110, 228, 0.24);
+  background: linear-gradient(155deg, rgba(255, 255, 255, 0.95), rgba(255, 246, 235, 0.95));
+}
+
+.onboarding-kicker {
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  color: var(--accent-warm);
+}
+
+.onboarding-card h2 {
+  margin: 0 0 0.55rem;
+}
+
+.onboarding-body {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.onboarding-dots {
+  margin-top: 0.95rem;
+  display: inline-flex;
+  gap: 0.45rem;
+}
+
+.onboarding-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(125, 99, 137, 0.32);
+  transition: transform var(--motion-fast) var(--motion-ease), background var(--motion-mid) var(--motion-ease);
+}
+
+.onboarding-dot.active {
+  background: var(--accent-cool);
+  transform: scale(1.1);
+}
+
+.onboarding-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.onboarding-next-group {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .is-pressed {
   transform: scale(0.98) !important;
 }

@@ -117,6 +117,22 @@
           <button class="nav-btn" data-target="profile" type="button">Profile</button>
         </nav>
       </section>
+
+      <section id="onboardingModal" class="onboarding-modal hidden" aria-modal="true" role="dialog" aria-label="How to use Toki">
+        <article class="panel onboarding-card">
+          <p class="onboarding-kicker">Welcome to Toki</p>
+          <h2 id="onboardingTitle"></h2>
+          <p id="onboardingBody" class="onboarding-body"></p>
+          <div id="onboardingDots" class="onboarding-dots" aria-hidden="true"></div>
+          <div class="onboarding-actions">
+            <button id="onboardingSkipBtn" class="ghost-btn" type="button">Skip tour</button>
+            <div class="onboarding-next-group">
+              <button id="onboardingPrevBtn" class="inline-btn" type="button">Back</button>
+              <button id="onboardingNextBtn" class="primary-btn" type="button">Next</button>
+            </div>
+          </div>
+        </article>
+      </section>
     </main>
 
     <script type="module" src="app.js"></script>

@@ -14,6 +14,14 @@ async function register(page, { email, username, fullName, password }) {
   await page.locator("#authForm button[type='submit']").click();
 }
 
+async function dismissOnboardingIfShown(page) {
+  const onboarding = page.locator("#onboardingModal");
+  if (await onboarding.isVisible()) {
+    await page.locator("#onboardingSkipBtn").click();
+    await expect(onboarding).toBeHidden();
+  }
+}
+
 async function login(page, { email, password }) {
   await page.locator("#showLoginBtn").click();
   await page.locator("#authEmail").fill(email);
@@ -54,6 +62,7 @@ test("full flow: register, ask, answer, rate, leaderboard", async ({ page }) => 
   await page.goto("/");
 
   await register(page, asker);
+  await dismissOnboardingIfShown(page);
   await expect(page.locator("#sessionChip")).toContainText(`@${asker.username}`);
 
   await page.getByRole("button", { name: "Ask" }).click();
@@ -65,16 +74,18 @@ test("full flow: register, ask, answer, rate, leaderboard", async ({ page }) => 
   await logout(page);
 
   await register(page, giver);
+  await dismissOnboardingIfShown(page);
   await expect(page.locator("#sessionChip")).toContainText(`@${giver.username}`);
 
   await page.getByRole("button", { name: "Home" }).click();
   const card = page.locator(".question-card").filter({ hasText: questionTitle }).first();
   await card.locator("textarea[name='answerText']").fill(answerBody);
-  await card.getByRole("button", { name: "Give Advice" }).click();
+  await card.getByRole("button", { name: "Give Guidance" }).click();
   await expect(card).toContainText(answerBody);
   await logout(page);
 
   await login(page, { email: asker.email, password: asker.password });
+  await dismissOnboardingIfShown(page);
   await expect(page.locator("#sessionChip")).toContainText(`@${asker.username}`);
   await page.getByRole("button", { name: "Home" }).click();
 
