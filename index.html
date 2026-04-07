@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Toki - Social Helping App</title>
+    <title>Toki - Love and Relationship Advice</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -12,7 +12,7 @@
       <header class="top-header">
         <div>
           <p class="brand-kicker">Toki</p>
-          <h1>Advice That Levels You Up</h1>
+          <h1>Love and Relationship Advice, Made Supportive</h1>
         </div>
         <div id="sessionChip" class="session-chip hidden"></div>
       </header>
@@ -20,7 +20,7 @@
       <section id="authView" class="auth-view">
         <article class="panel auth-panel">
           <h2>Welcome to Toki</h2>
-          <p>Ask for help, share advice, and climb the leaderboard.</p>
+          <p>Ask about relationships, share caring advice, and build trust with the community.</p>
 
           <div class="auth-switch" role="tablist" aria-label="Authentication mode">
             <button id="showLoginBtn" class="chip active" type="button">Log In</button>
@@ -57,7 +57,7 @@
             <div class="panel">
               <div class="section-head">
                 <h2>Home Feed</h2>
-                <p>Browse requests and share advice.</p>
+                <p>Browse relationship questions and share thoughtful advice.</p>
               </div>
               <div id="feedList" class="feed-list"></div>
             </div>
@@ -66,18 +66,18 @@
           <section id="screen-ask" class="screen" aria-label="Ask for advice">
             <article class="panel">
               <div class="section-head">
-                <h2>Ask for Advice</h2>
-                <p>Post what you need help with and let the community respond.</p>
+                <h2>Ask About Relationships</h2>
+                <p>Share what is going on in your relationship and get compassionate feedback.</p>
               </div>
 
               <form id="askForm" class="stacked-form">
                 <label>
                   Topic
-                  <input id="askTitle" type="text" minlength="4" maxlength="90" required placeholder="Example: I keep procrastinating before exams" />
+                  <input id="askTitle" type="text" minlength="4" maxlength="90" required placeholder="Example: My partner and I keep having the same argument" />
                 </label>
                 <label>
                   Details
-                  <textarea id="askBody" minlength="12" maxlength="700" required placeholder="Explain your situation so people can give useful advice."></textarea>
+                  <textarea id="askBody" minlength="12" maxlength="700" required placeholder="Describe the relationship context so people can offer clear, kind advice."></textarea>
                 </label>
                 <button class="primary-btn" type="submit">Post Question</button>
               </form>
@@ -89,7 +89,7 @@
             <article class="panel">
               <div class="section-head">
                 <h2>Leaderboard</h2>
-                <p>Top users rated for giving advice.</p>
+                <p>Top contributors rated for thoughtful relationship guidance.</p>
               </div>
               <ol id="leaderboardList" class="leaderboard-list"></ol>
             </article>

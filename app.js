@@ -282,7 +282,7 @@ function buildFeed() {
   const questions = getQuestionsView();
 
   if (!currentUserId || questions.length === 0) {
-    el.feedList.innerHTML = '<p class="muted">No questions yet. Be the first to ask for advice.</p>';
+    el.feedList.innerHTML = '<p class="muted">No relationship questions yet. Be the first to ask for advice.</p>';
     return;
   }
 
@@ -321,10 +321,10 @@ function buildFeed() {
       const canAnswer = currentUserId !== question.asker_id;
       const answerForm = canAnswer
         ? `<form class="answer-form" data-action="add-answer" data-question-id="${escapeHtml(question.id)}">
-            <textarea name="answerText" minlength="8" maxlength="500" required placeholder="Share practical advice"></textarea>
-            <button class="inline-btn" type="submit">Give Advice</button>
+            <textarea name="answerText" minlength="8" maxlength="500" required placeholder="Share respectful relationship advice"></textarea>
+            <button class="inline-btn" type="submit">Give Guidance</button>
           </form>`
-        : "<p class='meta'>This is your question. Rate helpful answers to update rankings.</p>";
+        : "<p class='meta'>This is your question. Rate thoughtful replies to update rankings.</p>";
 
       return `<article class="question-card">
           <div class="question-head">
@@ -336,8 +336,8 @@ function buildFeed() {
           </div>
           <p>${escapeHtml(question.body)}</p>
           <div class="answer-block">
-            <h4>Advice</h4>
-            ${answersHtml || '<p class="muted">No advice yet. Add the first response.</p>'}
+            <h4>Relationship Advice</h4>
+            ${answersHtml || '<p class="muted">No advice yet. Add the first supportive response.</p>'}
             ${answerForm}
           </div>
         </article>`;
@@ -349,7 +349,8 @@ function buildLeaderboard() {
   const rows = computeLeaderboard(state.profiles, getQuestionsView());
 
   if (rows.length === 0) {
-    el.leaderboardList.innerHTML = "<li class='muted'>No ratings yet. Rate advice in Home to start the leaderboard.</li>";
+    el.leaderboardList.innerHTML =
+      "<li class='muted'>No ratings yet. Rate relationship guidance in Home to start the leaderboard.</li>";
     return;
   }
 
@@ -391,7 +392,7 @@ function buildProfile() {
       <div class="value">${myQuestions.length}</div>
     </article>
     <article class="stat-card">
-      <div class="label">Advice Given</div>
+      <div class="label">Guidance Given</div>
       <div class="value">${myAnswers.length}</div>
     </article>
     <article class="stat-card">
@@ -426,7 +427,7 @@ function buildProfile() {
     <h3>Recent Activity</h3>
     <p class="meta">Bio: ${escapeHtml(currentProfile.bio || "No bio yet")}</p>
     <p class="meta">Member since ${escapeHtml(formatDate(currentProfile.created_at))}</p>
-    <h3>Your Advice</h3>
+    <h3>Your Relationship Advice</h3>
     <ul>${recentAnswers || "<li>No advice posted yet.</li>"}</ul>
     <h3>Your Questions</h3>
     <ul>${recentQuestions || "<li>No questions posted yet.</li>"}</ul>

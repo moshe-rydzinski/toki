@@ -1,16 +1,16 @@
 :root {
-  --bg-deep: #241b47;
-  --bg-mid: #fff7ed;
-  --card: rgba(255, 255, 255, 0.84);
-  --card-border: rgba(42, 94, 202, 0.2);
-  --text-main: #2d214f;
-  --text-muted: #6e618f;
-  --accent-warm: #ff5ca8;
+  --bg-deep: #431f3f;
+  --bg-mid: #fff8ef;
+  --card: rgba(255, 255, 255, 0.86);
+  --card-border: rgba(50, 110, 228, 0.2);
+  --text-main: #41244e;
+  --text-muted: #7d6389;
+  --accent-warm: #ff4f9a;
   --accent-cool: #1ba5ff;
-  --accent-soft: #ffd85a;
+  --accent-soft: #ffd457;
   --danger: #d64376;
-  --success: #1f9b63;
-  --shadow: 0 16px 36px rgba(255, 107, 170, 0.18);
+  --success: #1d9962;
+  --shadow: 0 16px 40px rgba(255, 92, 154, 0.2);
   --motion-fast: 130ms;
   --motion-mid: 220ms;
   --motion-slow: 360ms;
@@ -35,10 +35,10 @@ body {
   text-rendering: optimizeLegibility;
   color: var(--text-main);
   background:
-    radial-gradient(circle at 9% 14%, rgba(255, 137, 194, 0.42) 0%, transparent 38%),
-    radial-gradient(circle at 84% 5%, rgba(255, 216, 90, 0.35) 0%, transparent 36%),
-    radial-gradient(circle at 86% 84%, rgba(27, 165, 255, 0.3) 0%, transparent 34%),
-    linear-gradient(165deg, #fffaf2 0%, #fff6fb 45%, #f0f8ff 100%);
+    radial-gradient(circle at 8% 12%, rgba(255, 121, 184, 0.44) 0%, transparent 40%),
+    radial-gradient(circle at 82% 4%, rgba(255, 212, 87, 0.34) 0%, transparent 38%),
+    radial-gradient(circle at 86% 86%, rgba(27, 165, 255, 0.26) 0%, transparent 36%),
+    linear-gradient(165deg, #fffaf0 0%, #fff3f8 44%, #eef7ff 100%);
   background-size: 120% 120%;
   animation: bg-float 20s ease-in-out infinite alternate;
   display: flex;
@@ -51,8 +51,8 @@ body {
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(120deg, rgba(255, 124, 189, 0.06) 25%, transparent 25%),
-    linear-gradient(300deg, rgba(27, 165, 255, 0.06) 25%, transparent 25%);
+    linear-gradient(120deg, rgba(255, 108, 179, 0.06) 25%, transparent 25%),
+    linear-gradient(300deg, rgba(27, 165, 255, 0.07) 25%, transparent 25%);
   background-size: 34px 34px;
   opacity: 0.7;
 }
@@ -149,7 +149,7 @@ body {
 }
 
 .chip.active {
-  color: var(--bg-deep);
+  color: #3f1d3a;
   border-color: transparent;
   background: linear-gradient(110deg, var(--accent-soft), var(--accent-warm));
 }
