@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Toki - Social Helping App</title>
-    <script type="module" crossorigin src="./assets/index-DtQ0FSzu.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-DtzXwf66.css">
+    <title>Toki - Love and Relationship Advice</title>
+    <script type="module" crossorigin src="./assets/index-C7AP973I.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BSIIvnEo.css">
   </head>
   <body>
     <div class="backdrop"></div>
@@ -13,41 +13,48 @@
       <header class="top-header">
         <div>
           <p class="brand-kicker">Toki</p>
-          <h1>Advice That Levels You Up</h1>
+          <h1>Love and Relationship Advice, Made Supportive</h1>
         </div>
         <div id="sessionChip" class="session-chip hidden"></div>
       </header>
 
       <section id="authView" class="auth-view">
         <article class="panel auth-panel">
+          <p class="auth-kicker">Trusted by people navigating real relationships</p>
           <h2>Welcome to Toki</h2>
-          <p>Ask for help, share advice, and climb the leaderboard.</p>
+          <p>Ask about relationships, share caring advice, and build trust with the community.</p>
+          <div class="auth-highlights">
+            <span class="auth-pill">Private accounts</span>
+            <span class="auth-pill">Supportive replies</span>
+            <span class="auth-pill">Community rated</span>
+          </div>
 
           <div class="auth-switch" role="tablist" aria-label="Authentication mode">
             <button id="showLoginBtn" class="chip active" type="button">Log In</button>
             <button id="showRegisterBtn" class="chip" type="button">Create Account</button>
           </div>
 
-          <form id="authForm" class="stacked-form" autocomplete="off">
+          <form id="authForm" class="stacked-form" autocomplete="on">
             <label>
               Email
-              <input id="authEmail" type="email" maxlength="120" required placeholder="you@example.com" />
+              <input id="authEmail" type="email" maxlength="120" required placeholder="you@example.com" autocomplete="email" />
             </label>
             <label id="registerUsernameWrap" class="hidden">
               Username
-              <input id="registerUsername" type="text" minlength="3" maxlength="24" placeholder="your public handle" />
+              <input id="registerUsername" type="text" minlength="3" maxlength="24" placeholder="your public handle" autocomplete="username" />
             </label>
             <label id="fullNameWrap" class="hidden">
               Full Name
-              <input id="authFullName" type="text" minlength="2" maxlength="48" placeholder="Your name" />
+              <input id="authFullName" type="text" minlength="2" maxlength="48" placeholder="Your name" autocomplete="name" />
             </label>
             <label>
               Password
-              <input id="authPassword" type="password" minlength="4" maxlength="48" required />
+              <input id="authPassword" type="password" minlength="4" maxlength="48" required autocomplete="current-password" />
             </label>
             <button id="authSubmitBtn" class="primary-btn" type="submit">Log In</button>
           </form>
 
+          <p class="meta auth-footnote">We prioritize empathy, privacy, and respectful relationship guidance.</p>
           <p id="authMessage" class="status"></p>
         </article>
       </section>
@@ -58,7 +65,7 @@
             <div class="panel">
               <div class="section-head">
                 <h2>Home Feed</h2>
-                <p>Browse requests and share advice.</p>
+                <p>Browse relationship questions and share thoughtful advice.</p>
               </div>
               <div id="feedList" class="feed-list"></div>
             </div>
@@ -67,18 +74,18 @@
           <section id="screen-ask" class="screen" aria-label="Ask for advice">
             <article class="panel">
               <div class="section-head">
-                <h2>Ask for Advice</h2>
-                <p>Post what you need help with and let the community respond.</p>
+                <h2>Ask About Relationships</h2>
+                <p>Share what is going on in your relationship and get compassionate feedback.</p>
               </div>
 
               <form id="askForm" class="stacked-form">
                 <label>
                   Topic
-                  <input id="askTitle" type="text" minlength="4" maxlength="90" required placeholder="Example: I keep procrastinating before exams" />
+                  <input id="askTitle" type="text" minlength="4" maxlength="90" required placeholder="Example: My partner and I keep having the same argument" />
                 </label>
                 <label>
                   Details
-                  <textarea id="askBody" minlength="12" maxlength="700" required placeholder="Explain your situation so people can give useful advice."></textarea>
+                  <textarea id="askBody" minlength="12" maxlength="700" required placeholder="Describe the relationship context so people can offer clear, kind advice."></textarea>
                 </label>
                 <button class="primary-btn" type="submit">Post Question</button>
               </form>
@@ -90,7 +97,7 @@
             <article class="panel">
               <div class="section-head">
                 <h2>Leaderboard</h2>
-                <p>Top users rated for giving advice.</p>
+                <p>Top contributors rated for thoughtful relationship guidance.</p>
               </div>
               <ol id="leaderboardList" class="leaderboard-list"></ol>
             </article>
@@ -102,6 +109,22 @@
                 <h2>Your Profile</h2>
                 <p>Track your advice impact and activity.</p>
               </div>
+
+              <section class="profile-avatar-panel" aria-label="Profile picture">
+                <div class="profile-avatar-wrap">
+                  <img id="profileAvatarPreview" class="profile-avatar hidden" alt="Your profile picture" />
+                  <div id="profileAvatarFallback" class="profile-avatar-fallback"></div>
+                </div>
+                <form id="avatarForm" class="avatar-form">
+                  <label>
+                    Profile Picture
+                    <input id="avatarFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+                  </label>
+                  <button class="inline-btn" type="submit">Upload Photo</button>
+                  <p class="meta">Recommended: square image, under 5MB.</p>
+                  <p id="avatarMessage" class="status"></p>
+                </form>
+              </section>
 
               <div id="profileStats" class="profile-stats"></div>
               <div id="profileHistory" class="profile-history"></div>
@@ -117,6 +140,22 @@
           <button class="nav-btn" data-target="leaderboard" type="button">Leaderboard</button>
           <button class="nav-btn" data-target="profile" type="button">Profile</button>
         </nav>
+      </section>
+
+      <section id="onboardingModal" class="onboarding-modal hidden" aria-modal="true" role="dialog" aria-label="How to use Toki">
+        <article class="panel onboarding-card">
+          <p class="onboarding-kicker">Welcome to Toki</p>
+          <h2 id="onboardingTitle"></h2>
+          <p id="onboardingBody" class="onboarding-body"></p>
+          <div id="onboardingDots" class="onboarding-dots" aria-hidden="true"></div>
+          <div class="onboarding-actions">
+            <button id="onboardingSkipBtn" class="ghost-btn" type="button">Skip tour</button>
+            <div class="onboarding-next-group">
+              <button id="onboardingPrevBtn" class="inline-btn" type="button">Back</button>
+              <button id="onboardingNextBtn" class="primary-btn" type="button">Next</button>
+            </div>
+          </div>
+        </article>
       </section>
     </main>
 
