@@ -252,6 +252,7 @@ function switchAuthMode(mode) {
   el.authSubmitBtn.textContent = registerMode ? "Create Account" : "Log In";
   el.registerUsername.required = registerMode;
   el.authFullName.required = registerMode;
+  el.authPassword.autocomplete = registerMode ? "new-password" : "current-password";
   showStatus(el.authMessage, "");
 }
 

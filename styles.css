@@ -115,7 +115,18 @@ body {
 }
 
 .auth-panel {
-  max-width: 420px;
+  max-width: 520px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(120deg, var(--accent-warm), var(--accent-soft), var(--accent-cool));
 }
 
 .auth-panel h2 {
@@ -126,6 +137,33 @@ body {
 .auth-panel p {
   margin-top: 0;
   color: var(--text-muted);
+}
+
+.auth-kicker {
+  margin: 0 0 0.5rem;
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-cool);
+  font-weight: 700;
+}
+
+.auth-highlights {
+  margin: 0.45rem 0 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.auth-pill {
+  display: inline-block;
+  border-radius: 999px;
+  border: 1px solid rgba(50, 110, 228, 0.24);
+  background: rgba(255, 255, 255, 0.72);
+  color: #5a3c6a;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.28rem 0.58rem;
 }
 
 .auth-switch {
@@ -152,6 +190,12 @@ body {
   color: #3f1d3a;
   border-color: transparent;
   background: linear-gradient(110deg, var(--accent-soft), var(--accent-warm));
+}
+
+.auth-footnote {
+  margin-top: 0.85rem;
+  margin-bottom: 0.2rem;
+  font-size: 0.82rem;
 }
 
 .stacked-form {

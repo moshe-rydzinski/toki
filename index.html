@@ -19,34 +19,41 @@
 
       <section id="authView" class="auth-view">
         <article class="panel auth-panel">
+          <p class="auth-kicker">Trusted by people navigating real relationships</p>
           <h2>Welcome to Toki</h2>
           <p>Ask about relationships, share caring advice, and build trust with the community.</p>
+          <div class="auth-highlights">
+            <span class="auth-pill">Private accounts</span>
+            <span class="auth-pill">Supportive replies</span>
+            <span class="auth-pill">Community rated</span>
+          </div>
 
           <div class="auth-switch" role="tablist" aria-label="Authentication mode">
             <button id="showLoginBtn" class="chip active" type="button">Log In</button>
             <button id="showRegisterBtn" class="chip" type="button">Create Account</button>
           </div>
 
-          <form id="authForm" class="stacked-form" autocomplete="off">
+          <form id="authForm" class="stacked-form" autocomplete="on">
             <label>
               Email
-              <input id="authEmail" type="email" maxlength="120" required placeholder="you@example.com" />
+              <input id="authEmail" type="email" maxlength="120" required placeholder="you@example.com" autocomplete="email" />
             </label>
             <label id="registerUsernameWrap" class="hidden">
               Username
-              <input id="registerUsername" type="text" minlength="3" maxlength="24" placeholder="your public handle" />
+              <input id="registerUsername" type="text" minlength="3" maxlength="24" placeholder="your public handle" autocomplete="username" />
             </label>
             <label id="fullNameWrap" class="hidden">
               Full Name
-              <input id="authFullName" type="text" minlength="2" maxlength="48" placeholder="Your name" />
+              <input id="authFullName" type="text" minlength="2" maxlength="48" placeholder="Your name" autocomplete="name" />
             </label>
             <label>
               Password
-              <input id="authPassword" type="password" minlength="4" maxlength="48" required />
+              <input id="authPassword" type="password" minlength="4" maxlength="48" required autocomplete="current-password" />
             </label>
             <button id="authSubmitBtn" class="primary-btn" type="submit">Log In</button>
           </form>
 
+          <p class="meta auth-footnote">We prioritize empathy, privacy, and respectful relationship guidance.</p>
           <p id="authMessage" class="status"></p>
         </article>
       </section>
