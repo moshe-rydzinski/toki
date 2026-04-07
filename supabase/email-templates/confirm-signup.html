@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm your Toki account</title>
+  </head>
+  <body style="margin: 0; padding: 0; background: #fff8f2; font-family: 'Avenir Next', 'Trebuchet MS', Arial, sans-serif; color: #41244e;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background: linear-gradient(165deg, #fffaf0 0%, #fff2f8 48%, #eef7ff 100%); padding: 28px 12px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width: 580px; background: #ffffff; border: 1px solid #e4daf0; border-radius: 18px; box-shadow: 0 10px 32px rgba(255, 79, 154, 0.18); overflow: hidden;">
+            <tr>
+              <td style="padding: 22px 24px 8px; text-align: center;">
+                <p style="margin: 0; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: #ff4f9a; font-weight: 700;">Toki</p>
+                <h1 style="margin: 10px 0 0; font-size: 28px; line-height: 1.2; color: #41244e;">Welcome to Toki</h1>
+                <p style="margin: 10px 0 0; font-size: 16px; line-height: 1.5; color: #7d6389;">
+                  A supportive space for love and relationship advice.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 18px 24px 8px;">
+                <p style="margin: 0; font-size: 15px; line-height: 1.65; color: #4b3562;">
+                  Confirm your email to activate your account and start asking or sharing thoughtful relationship guidance.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="padding: 20px 24px 8px;">
+                <a href="{{ .ConfirmationURL }}" style="display: inline-block; text-decoration: none; font-weight: 700; font-size: 16px; line-height: 1; color: #3c2145; background: linear-gradient(120deg, #ff4f9a, #ffd457 75%); padding: 14px 24px; border-radius: 12px;">
+                  Confirm my email
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding: 18px 24px 22px;">
+                <p style="margin: 0; font-size: 13px; line-height: 1.55; color: #7d6389;">
+                  If the button does not work, copy and paste this URL into your browser:
+                </p>
+                <p style="margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: #1ba5ff; word-break: break-all;">
+                  {{ .ConfirmationURL }}
+                </p>
+                <p style="margin: 14px 0 0; font-size: 12px; line-height: 1.55; color: #9c8ca8;">
+                  You are receiving this email because a Toki account was created for {{ .Email }}.
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -36,9 +36,12 @@ Toki is a social helping app where users ask for advice, others answer, askers r
    - Re-enable email confirmation before production launch.
 3. In SQL Editor, run:
    - `supabase/setup.sql`
-4. Confirm tables exist:
+4. (Optional but recommended) Theme auth emails:
+   - Follow `supabase/email-templates/README.md`
+   - Paste `supabase/email-templates/confirm-signup.html` into Supabase **Confirm signup** template
+5. Confirm tables exist:
    - `profiles`, `questions`, `answers`, `ratings`
-5. Confirm RLS is enabled on all four tables and policies were created.
+6. Confirm RLS is enabled on all four tables and policies were created.
 
 ## Build and Preview
 
