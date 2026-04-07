@@ -102,6 +102,22 @@
                 <p>Track your advice impact and activity.</p>
               </div>
 
+              <section class="profile-avatar-panel" aria-label="Profile picture">
+                <div class="profile-avatar-wrap">
+                  <img id="profileAvatarPreview" class="profile-avatar hidden" alt="Your profile picture" />
+                  <div id="profileAvatarFallback" class="profile-avatar-fallback"></div>
+                </div>
+                <form id="avatarForm" class="avatar-form">
+                  <label>
+                    Profile Picture
+                    <input id="avatarFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" />
+                  </label>
+                  <button class="inline-btn" type="submit">Upload Photo</button>
+                  <p class="meta">Recommended: square image, under 5MB.</p>
+                  <p id="avatarMessage" class="status"></p>
+                </form>
+              </section>
+
               <div id="profileStats" class="profile-stats"></div>
               <div id="profileHistory" class="profile-history"></div>
 

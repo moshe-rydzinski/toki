@@ -61,6 +61,11 @@ const el = {
   leaderboardList: document.getElementById("leaderboardList"),
   profileStats: document.getElementById("profileStats"),
   profileHistory: document.getElementById("profileHistory"),
+  avatarForm: document.getElementById("avatarForm"),
+  avatarFileInput: document.getElementById("avatarFileInput"),
+  avatarMessage: document.getElementById("avatarMessage"),
+  profileAvatarPreview: document.getElementById("profileAvatarPreview"),
+  profileAvatarFallback: document.getElementById("profileAvatarFallback"),
   logoutBtn: document.getElementById("logoutBtn"),
   onboardingModal: document.getElementById("onboardingModal"),
   onboardingTitle: document.getElementById("onboardingTitle"),
@@ -89,6 +94,34 @@ function normalizeUsername(value) {
     .toLowerCase()
     .replace(/[^a-z0-9_]/g, "")
     .slice(0, 24);
+}
+
+function getProfileInitials(profile) {
+  const source = sanitize(profile?.full_name || profile?.username || "?");
+  if (!source) {
+    return "?";
+  }
+  const parts = source.split(/\s+/).filter(Boolean);
+  if (parts.length === 1) {
+    return parts[0].slice(0, 2).toUpperCase();
+  }
+  return `${parts[0][0] || ""}${parts[1][0] || ""}`.toUpperCase();
+}
+
+function renderProfileAvatar(profile) {
+  const avatarUrl = sanitize(profile?.avatar_url || "");
+  el.profileAvatarFallback.textContent = getProfileInitials(profile);
+
+  if (!avatarUrl) {
+    el.profileAvatarPreview.classList.add("hidden");
+    el.profileAvatarPreview.removeAttribute("src");
+    el.profileAvatarFallback.classList.remove("hidden");
+    return;
+  }
+
+  el.profileAvatarPreview.src = avatarUrl;
+  el.profileAvatarPreview.classList.remove("hidden");
+  el.profileAvatarFallback.classList.add("hidden");
 }
 
 function getAuthRedirectUrl() {
@@ -241,6 +274,26 @@ function getQuestionsView() {
   return joinQuestionsWithAnswersAndRatings(state.questions, state.answers, state.ratings);
 }
 
+function profileIdentityMarkup(profile, options = {}) {
+  const sizeClass = options.sizeClass || "";
+  const showUsername = options.showUsername !== false;
+  const avatarUrl = sanitize(profile?.avatar_url || "");
+  const initials = getProfileInitials(profile);
+  const fullName = escapeHtml(profile?.full_name || "Unknown");
+  const username = escapeHtml(profile?.username || "?");
+
+  return `<span class="identity ${escapeHtml(sizeClass)}">
+      ${
+        avatarUrl
+          ? `<img class="identity-avatar ${escapeHtml(sizeClass)}" src="${escapeHtml(avatarUrl)}" alt="${fullName}'s profile picture" />`
+          : `<span class="identity-avatar identity-fallback ${escapeHtml(sizeClass)}">${escapeHtml(initials)}</span>`
+      }
+      <span class="identity-text">
+        <strong>${fullName}</strong>${showUsername ? ` <span class="meta">(@${username})</span>` : ""}
+      </span>
+    </span>`;
+}
+
 function supportsHaptics() {
   if (!navigator || typeof navigator.vibrate !== "function") {
     return false;
@@ -346,6 +399,7 @@ async function createProfileWithRetries(userId, preferredUsername, preferredFull
       username: candidate,
       full_name: fullName,
       bio: "Helping others every day.",
+      avatar_url: "",
     });
 
     if (!error) {
@@ -408,6 +462,7 @@ function buildFeed() {
       const answersHtml = (question.answers || [])
         .map((answer) => {
           const giver = getProfileById(answer.giver_id);
+          const giverIdentity = profileIdentityMarkup(giver, { sizeClass: "small" });
           const ratingControl =
             currentUserId === question.asker_id && answer.rating == null
               ? `<form class="inline-form" data-action="rate-answer" data-question-id="${escapeHtml(question.id)}" data-answer-id="${escapeHtml(answer.id)}">
@@ -424,7 +479,7 @@ function buildFeed() {
                 : "";
 
           return `<div class="answer-row">
-              <p><strong>${escapeHtml(giver?.full_name || "Unknown")}</strong> (@${escapeHtml(giver?.username || "?")})</p>
+              <p>${giverIdentity}</p>
               <p>${escapeHtml(answer.body)}</p>
               <div class="answer-foot">
                 <span class="meta">${escapeHtml(formatDate(answer.created_at))}</span>
@@ -446,7 +501,7 @@ function buildFeed() {
           <div class="question-head">
             <div>
               <h3>${escapeHtml(question.title)}</h3>
-              <p class="meta">Asked by ${escapeHtml(asker?.full_name || "Unknown")} (@${escapeHtml(asker?.username || "?")})</p>
+              <p class="meta">Asked by ${profileIdentityMarkup(asker, { sizeClass: "tiny" })}</p>
             </div>
             <span class="meta">${escapeHtml(formatDate(question.created_at))}</span>
           </div>
@@ -475,7 +530,7 @@ function buildLeaderboard() {
       return `<li class="leaderboard-item">
           <div>
             <span class="lb-rank">#${idx + 1}</span>
-            <strong>${escapeHtml(row.profile.full_name)}</strong> (@${escapeHtml(row.profile.username)})
+            ${profileIdentityMarkup(row.profile, { sizeClass: "tiny" })}
           </div>
           <div class="meta">Avg ${escapeHtml(row.avg.toFixed(1))}/10 • ${escapeHtml(row.count)} rating${row.count > 1 ? "s" : ""}</div>
         </li>`;
@@ -491,8 +546,11 @@ function buildProfile() {
   if (!currentUserId || !currentProfile) {
     el.profileStats.innerHTML = "";
     el.profileHistory.innerHTML = "<p class='muted'>Profile unavailable.</p>";
+    renderProfileAvatar(null);
     return;
   }
+
+  renderProfileAvatar(currentProfile);
 
   const { myQuestions, myAnswers } = collectUserActivity(currentUserId, questions);
   const ratedScores = myAnswers.map((item) => item.answer.rating).filter((score) => score != null);
@@ -701,6 +759,75 @@ async function handleAskSubmit(event) {
   }
 }
 
+async function handleAvatarSubmit(event) {
+  event.preventDefault();
+
+  if (!state.currentUser || !supabase) {
+    return;
+  }
+
+  if (!supabase.storage || typeof supabase.storage.from !== "function") {
+    showStatus(el.avatarMessage, "Avatar uploads are not configured in this environment.", "error");
+    return;
+  }
+
+  const file = el.avatarFileInput.files?.[0];
+  if (!file) {
+    showStatus(el.avatarMessage, "Choose an image file first.", "error");
+    return;
+  }
+
+  if (!file.type.startsWith("image/")) {
+    showStatus(el.avatarMessage, "Please upload an image file.", "error");
+    return;
+  }
+
+  const maxBytes = 5 * 1024 * 1024;
+  if (file.size > maxBytes) {
+    showStatus(el.avatarMessage, "Image is too large. Keep it under 5MB.", "error");
+    return;
+  }
+
+  const extension = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const objectPath = `${state.currentUser.id}/avatar-${Date.now()}.${extension || "jpg"}`;
+
+  try {
+    const { error: uploadError } = await supabase.storage.from("avatars").upload(objectPath, file, {
+      cacheControl: "3600",
+      upsert: true,
+      contentType: file.type,
+    });
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("avatars").getPublicUrl(objectPath);
+
+    if (!publicUrl) {
+      throw new Error("Could not retrieve uploaded image URL.");
+    }
+
+    const { error: updateError } = await supabase
+      .from("profiles")
+      .update({ avatar_url: publicUrl })
+      .eq("id", state.currentUser.id);
+
+    if (updateError) {
+      throw updateError;
+    }
+
+    el.avatarForm.reset();
+    showStatus(el.avatarMessage, "Profile picture updated.", "ok");
+    await refreshAndRender();
+    showScreen("profile");
+  } catch (error) {
+    showStatus(el.avatarMessage, error.message || "Could not upload profile picture.", "error");
+  }
+}
+
 async function handleFeedActions(event) {
   const form = event.target.closest("form[data-action]");
   if (!form || !state.currentUser) {
@@ -782,6 +909,9 @@ function attachEvents() {
   });
   el.askForm.addEventListener("submit", (event) => {
     void handleAskSubmit(event);
+  });
+  el.avatarForm?.addEventListener("submit", (event) => {
+    void handleAvatarSubmit(event);
   });
   el.feedList.addEventListener("submit", (event) => {
     void handleFeedActions(event);

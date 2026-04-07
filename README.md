@@ -41,7 +41,10 @@ Toki is a social helping app where users ask for advice, others answer, askers r
    - Paste `supabase/email-templates/confirm-signup.html` into Supabase **Confirm signup** template
 5. Confirm tables exist:
    - `profiles`, `questions`, `answers`, `ratings`
-6. Confirm RLS is enabled on all four tables and policies were created.
+6. Confirm profile pictures are enabled:
+   - `profiles.avatar_url` column exists
+   - public Storage bucket `avatars` exists
+7. Confirm RLS is enabled on all four tables and policies were created.
 
 ## Build and Preview
 
